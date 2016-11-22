@@ -1,0 +1,117 @@
+<html>
+
+<head>
+<title>terminal</title>
+
+<style type="text/css">
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	background: #000;
+}
+
+#wrapper{
+	height: 100%;
+}
+
+.terminal, .output{
+	border: none;
+	background: none;
+	width: 98%;
+	color: #2f2;
+	font-family: Consolas, 'Courier New', monospace;
+	font-size: 12pt;
+	padding: 10px;
+}
+
+.output
+{
+	color: #22f;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+	<input class="terminal">
+	<pre class="output"></pre>
+	
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		
+		//Cached element prototypes
+		var $line = null;
+		var $out = null;
+		
+		//Cached actual wrapper element
+		var $wrapper = null;
+		
+		var lastCommand = '';
+		
+		$(function(){
+			//Make prototypes
+			$line = $('.terminal').last().val('').clone();
+			$out = $('.output').last().text('').clone();
+			
+			//Remove original output template
+			$('.output').remove();
+			
+			//Obtain the wrapper
+			$wrapper = $('#wrapper');
+			readyInput();
+		});
+		
+		function readyInput()
+		{
+			//Focus ad bind the newest input
+			$newestInput = $('.terminal').last();
+			$newestInput.focus();
+			
+			$newestInput.bind('keypress', function(e) {
+				if(e.keyCode == 13){
+					//Enter/Return
+					bottomInputText = $newestInput.val();
+					submit(bottomInputText);
+				}
+				else if(e.keyCode == 38)
+				{
+					//Up
+					$newestInput.val(lastCommand);
+					scrollToBottom();
+				}
+			});
+		}
+		
+		function submit(cmd)
+		{
+			lastCommand = cmd;
+			$.get('sh.php', {'input' : cmd}, response);
+		}
+		
+		function response(data)
+		{
+			$wrapper.append($out.clone().text(data));
+			$newLine = $line.clone().text('');
+			$wrapper.append($newLine);
+			readyInput();
+		}
+		
+		function scrollToBottom()
+		{
+			$("html, body").animate({ scrollTop: $(document).height() }, 200);
+		}
+		
+	</script>
+	
+</div>
+
+</body>
+</html>
