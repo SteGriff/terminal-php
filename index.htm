@@ -1,51 +1,48 @@
+<!DOCTYPE HTML>
 <html>
-
 <head>
-<title>terminal</title>
+	<title>terminal</title>
+	<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
 
-<style type="text/css">
+	body{
+		background: #000;
+	}
 
-*{
-	margin: 0;
-	padding: 0;
-}
+	#wrapper{
+		height: 100%;
+	}
 
-body{
-	background: #000;
-}
+	.terminal, .output{
+		border: none;
+		background: none;
+		width: 98%;
+		color: #2f2;
+		font-family: Consolas, 'Courier New', monospace;
+		font-size: 12pt;
+		padding: 10px;
+	}
 
-#wrapper{
-	height: 100%;
-}
-
-.terminal, .output{
-	border: none;
-	background: none;
-	width: 98%;
-	color: #2f2;
-	font-family: Consolas, 'Courier New', monospace;
-	font-size: 12pt;
-	padding: 10px;
-}
-
-.output
-{
-	color: #22f;
-}
-
-</style>
-
+	.output
+	{
+		color: #22f;
+	}
+	</style>
 </head>
-
 <body>
 
-<div id="wrapper">
+	<div id="wrapper">
 
-	<input class="terminal">
-	<pre class="output"></pre>
-	
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script type="text/javascript">
+		<input class="terminal">
+		<pre class="output"></pre>
+		
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script>
 		
 		//Cached element prototypes
 		var $line = null;
@@ -57,7 +54,7 @@ body{
 		var lastCommand = '';
 		
 		$(function(){
-			//Make prototypes
+			//Cache prototypes of repeated elements
 			$line = $('.terminal').last().val('').clone();
 			$out = $('.output').last().text('').clone();
 			
@@ -71,7 +68,7 @@ body{
 		
 		function readyInput()
 		{
-			//Focus ad bind the newest input
+			//Focus and bind the newest input
 			$newestInput = $('.terminal').last();
 			$newestInput.focus();
 			
@@ -111,7 +108,5 @@ body{
 		
 	</script>
 	
-</div>
-
 </body>
 </html>
